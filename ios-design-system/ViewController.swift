@@ -16,6 +16,8 @@ final class ViewController: UIViewController {
         size: .large
     )
 
+    private let card = DSCard()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = DSColor.background
@@ -23,12 +25,21 @@ final class ViewController: UIViewController {
     }
 
     private func setupLayout() {
-        view.addSubview(primaryButton)
+        view.addSubview(card)
+        card.contentView.addSubview(primaryButton)
+
         primaryButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            primaryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            primaryButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            card.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            card.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            card.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: DSSpacing.md),
+            card.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -DSSpacing.md),
+
+            primaryButton.topAnchor.constraint(equalTo: card.contentView.topAnchor),
+            primaryButton.leadingAnchor.constraint(equalTo: card.contentView.leadingAnchor),
+            primaryButton.trailingAnchor.constraint(equalTo: card.contentView.trailingAnchor),
+            primaryButton.bottomAnchor.constraint(equalTo: card.contentView.bottomAnchor)
         ])
     }
 }

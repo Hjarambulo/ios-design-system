@@ -5,12 +5,17 @@
 //  Created by Humberto Arambulo on 20/04/2026.
 //
 
-import Foundation
 import UIKit
 
 public final class DSButton: UIButton {
     private let style: DSButtonStyle
     private let size: DSButtonSize
+
+    public override var isEnabled: Bool {
+        didSet {
+            updateEnabledState()
+        }
+    }
 
     public init(
         title: String,
@@ -33,9 +38,11 @@ public final class DSButton: UIButton {
         titleLabel?.font = DSTypography.bodyBold
         layer.cornerRadius = 12
         clipsToBounds = true
+        translatesAutoresizingMaskIntoConstraints = false
 
         applyStyle()
         applySize()
+        updateEnabledState()
     }
 
     private func applyStyle() {
@@ -59,13 +66,32 @@ public final class DSButton: UIButton {
     private func applySize() {
         switch size {
         case .small:
-            contentEdgeInsets = UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
+            contentEdgeInsets = UIEdgeInsets(
+                top: DSSpacing.xs,
+                left: DSSpacing.sm,
+                bottom: DSSpacing.xs,
+                right: DSSpacing.sm
+            )
 
         case .medium:
-            contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+            contentEdgeInsets = UIEdgeInsets(
+                top: DSSpacing.sm,
+                left: DSSpacing.md,
+                bottom: DSSpacing.sm,
+                right: DSSpacing.md
+            )
 
         case .large:
-            contentEdgeInsets = UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20)
+            contentEdgeInsets = UIEdgeInsets(
+                top: DSSpacing.md,
+                left: DSSpacing.lg,
+                bottom: DSSpacing.md,
+                right: DSSpacing.lg
+            )
         }
+    }
+
+    private func updateEnabledState() {
+        alpha = isEnabled ? 1.0 : 0.5
     }
 }
